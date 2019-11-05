@@ -27,11 +27,12 @@ class HupuFilterSerializer(FilterSet):
     _status = filters.BaseInFilter(field_name='status')
     _used = filters.BaseInFilter(field_name='is_usable')
     _deleted = filters.BaseInFilter(field_name='deleted')
+    _jieba_title = filters.CharFilter(field_name='jieba_title', look_expr='icontains')
     
     class Meta:
         # 查询表
         model = Source
-        fields = ['_date', '_channel_names', '_team', '_account_type', '_status', '_used', '_deleted']
+        fields = ['_date', '_channel_names', '_team', '_account_type', '_jieba_title', '_status', '_used', '_deleted']
         
         
 class SourceNewViewSet(GenericAPIView, mixins.CreateModelMixin):
@@ -72,7 +73,7 @@ class SourceListViewSet(GenericAPIView, mixins.ListModelMixin):
     queryset = Source.objects.all()
     filter_backends = (DjangoFilterBackend,)
     filter_class = HupuFilterSerializer
-    lookup_fields = ['date', 'channel_names', 'team', 'account_type', 'status', 'used', 'deleted']
+    lookup_fields = ['date', 'channel_names', 'team', 'account_type', 'jieba_title', 'status', 'used', 'deleted']
     
     def _build_data(self, queryset):
         serializer = self.get_serializer(queryset, many=True)
@@ -81,7 +82,7 @@ class SourceListViewSet(GenericAPIView, mixins.ListModelMixin):
     
     def get(self, request, *args, **kwargs):
         '''
-        帖子列表(参数：'page', '_status', '_used', '_deleted', '_date', '_plate', '_topic')
+        帖子列表(参数：'page', '_date', '_channel_names', '_team', '_account_type', '_jieba_title', '_status', '_used', '_deleted')
         :param request:
         :param args:
         :param kwargs:
