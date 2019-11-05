@@ -7,17 +7,29 @@
                 <template>
                     <el-row :gutter="20">
                         <el-form :model="tableLineData" label-width="80px" ref="form" size="mini">
-                            <el-form-item label="id">
-                                <el-input disabled v-model="tableLineData.id"></el-input>
+                            <el-form-item label="帖子标题">
+                                <el-input disabled v-model="tableLineData.title"></el-input>
                             </el-form-item>
-                            <el-form-item label="标题">
-                                <el-input v-model="tableLineData.title"></el-input>
+                            <el-form-item label="副标题">
+                                <el-input v-model="tableLineData.mod_title"></el-input>
                             </el-form-item>
                             <el-form-item label="话题">
-                                <el-input v-model="tableLineData.topic"></el-input>
+                                <el-input v-model="tableLineData.pred_topic"></el-input>
+                            </el-form-item>
+                            <el-form-item label="关键词">
+                                <el-input v-model="tableLineData.jieba_title"></el-input>
+                            </el-form-item>
+                            <el-form-item label="频道名">
+                                <el-input v-model="tableLineData.channel_names"></el-input>
+                            </el-form-item>
+                            <el-form-item label="转化概率">
+                                <el-input disabled v-model="tableLineData.pred_prob"></el-input>
+                            </el-form-item>
+                            <el-form-item label="创建时间">
+                                <el-input disabled v-model="tableLineData.create_dt"></el-input>
                             </el-form-item>
                             <el-form-item label="更新时间">
-                                <el-input disabled v-model="tableLineData.updateDate"></el-input>
+                                <el-input disabled v-model="tableLineData.update_dt"></el-input>
                             </el-form-item>
                         </el-form>
 
@@ -46,6 +58,7 @@
 </template>
 <script>
     // eslint-disable-next-line no-unused-vars
+    import api from "../../config/env";
 
     export default {
         props: {
@@ -92,6 +105,35 @@
             confirmBtn() {
                 // eslint-disable-next-line no-console
                 console.log(this.tableLineData);
+                // 此字段为空报错
+                // this.tableLineData.channel_names = '111';
+                if (this.tableLineData.channel_names == '' || this.tableLineData.channel_names == null) {
+                    this.$message({message:"channel_names为空",type: 'error',customClass: 'zZindex'})
+                    return
+                }
+                if (this.tableLineData.jieba_title == '' || this.tableLineData.jieba_title == null) {
+                    this.$message({message:"jieba_title为空",type: 'error',customClass: 'zZindex'})
+                    return
+                }
+                const path = `${api.BASE_URL}/update/${this.tableLineData.id}`;
+                this.$http({
+                    url: path,
+                    method: 'post',
+                    data: JSON.stringify(this.tableLineData),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then((res) => {
+                        // eslint-disable-next-line no-console
+                        console.log(res);
+                        if (res.status == 200) {
+                            this.$message.success("更新成功")
+                        } else {
+                            this.$message.error("更新失败")
+                        }
+
+                    });
                 this.$emit('confirm');
                 // console.log(this.tableLineData);
                 this.closeMask();
@@ -99,10 +141,10 @@
 
 
             fileChange(file) {
-                this.showupload = false
+                this.showupload = false;
                 const isLt2M = file.size / 1024 / 1024 < 2;
                 if (!isLt2M) {
-                    this.$message({message: "上传头像图片大小不能超过 2MB!", type: 'warning', customClass: 'zZindex'})
+                    this.$message({message: "上传头像图片大小不能超过 2MB!", type: 'warning', customClass: 'zZindex'});
                     return false;
                 }
                 this.file = file.raw;
@@ -139,18 +181,17 @@
         left: 0;
         right: 0;
         background: rgba(0, 0, 0, 0.6);
-        z-index: 9999;
+        z-index: 888;
 
         .dialog-container {
             width: 500px;
-            height: 380px;
+            height: 500px;
             background: #ffffff;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             border-radius: 8px;
-            position: relative;
 
             .dialog-title {
                 width: 100%;
@@ -184,10 +225,9 @@
                     display: inline-block;
                     height: 40px;
                     line-height: 40px;
-                    padding: 0 14px;
+                    padding: 0px;
                     color: #ffffff;
                     background: #f1f1f1;
-                    border-radius: 8px;
                     margin-right: 12px;
                     cursor: pointer;
                 }
@@ -241,15 +281,16 @@
     }
 
     .el-row {
-        margin-bottom: 20px;
+        margin-bottom: 0;
 
         &:last-child {
             margin-bottom: 0;
         }
     }
-
+    .zZindex {
+        z-index: 9999 !important;
+    }
     .el-col {
-        border-radius: 4px;
     }
 
     .bg-purple-dark {
@@ -270,7 +311,7 @@
     }
 
     .row-bg {
-        padding: 10px 0;
+        padding: 0;
         background-color: #f9fafc;
     }
 

@@ -1,0 +1,33 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+chardet = "==3.0.4"
+coreapi = "==2.3.3"
+coreschema = "==0.0.4"
+django-filter = "==2.2.0"
+django-filters = "==0.2.1"
+django-rest-swagger = "==2.1.2"
+django-simple-serializer = "==2.0.7"
+djangorestframework = "==3.6.3"
+future = "==0.16.0"
+idna = "==2.6"
+itypes = "==1.1.0"
+openapi-codec = "==1.3.2"
+pytz = "==2017.2"
+requests = "==2.18.4"
+simplejson = "==3.11.1"
+uritemplate = "==3.0.0"
+urllib3 = "==1.22"
+django-bulk-update = "==2.2.0"
+Django = "==1.11.6"
+Jinja2 = "==2.9."
+MarkupSafe = "==1.0"
+pymysql = "*"
+
+[requires]
+python_version = "3.6"

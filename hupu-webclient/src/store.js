@@ -5,11 +5,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    account: {
-      name: localStorage.getItem('name'),
-      access_token: localStorage.getItem('access_token'),
-      uid: localStorage.getItem('uid')
-    },
     tableData: [],
     tableDataCount: 0,
     insuranceData :[],
