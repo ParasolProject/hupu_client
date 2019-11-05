@@ -118,7 +118,7 @@
                     </div>
                     <div>
                         <div><h2> By 弃用</h2></div>
-                        <el-radio-group v-model="deleted_status">
+                        <el-radio-group v-model="deleted_status" @change="onSubmit">
                             <div><el-radio-button label="ALL"></el-radio-button></div>
                             <div><el-radio-button label="YES"></el-radio-button></div>
                             <div><el-radio-button label="NO"></el-radio-button></div>
@@ -127,7 +127,7 @@
                     <el-divider></el-divider>
                     <div>
                         <div><h2> By 已被推送</h2></div>
-                        <el-radio-group v-model="pushed_status">
+                        <el-radio-group v-model="pushed_status" @change="onSubmit">
                             <div><el-radio-button label="ALL"></el-radio-button></div>
                             <div><el-radio-button label="YES"></el-radio-button></div>
                             <div><el-radio-button label="NO"></el-radio-button></div>
@@ -136,7 +136,7 @@
                     <el-divider></el-divider>
                     <div>
                         <div><h2> By 可用</h2></div>
-                        <el-radio-group v-model="ablepush_status">
+                        <el-radio-group v-model="ablepush_status" @change="onSubmit">
                             <div><el-radio-button label="ALL"></el-radio-button></div>
                             <div><el-radio-button label="YES"></el-radio-button></div>
                             <div><el-radio-button label="NO"></el-radio-button></div>
@@ -145,7 +145,7 @@
                     <el-divider></el-divider>
                     <div>
                         <div><h2> By 发布时间</h2></div>
-                        <el-radio-group v-model="pushtime_status">
+                        <el-radio-group v-model="pushtime_status" @change="onSubmit">
                             <div><el-radio-button label="ALL"></el-radio-button></div>
                             <div><el-radio-button label="近12小时"></el-radio-button></div>
                             <div><el-radio-button label="近24小时"></el-radio-button></div>
@@ -156,7 +156,7 @@
                     <el-divider></el-divider>
                     <div>
                         <div><h2> By 板块</h2></div>
-                        <el-radio-group v-model="channel_status">
+                        <el-radio-group v-model="channel_status" @change="onSubmit">
                             <div><el-radio-button label="ALL"></el-radio-button></div>
                             <div><el-radio-button label="影视娱乐"></el-radio-button></div>
                             <div><el-radio-button label="搞笑趣味"></el-radio-button></div>
@@ -169,7 +169,7 @@
                     <el-divider></el-divider>
                     <div>
                         <div><h2> By 话题</h2></div>
-                        <el-radio-group v-model="topic_id_status">
+                        <el-radio-group v-model="topic_id_status" @change="onSubmit">
                             <div><el-radio-button label="ALL"></el-radio-button></div>
                             <div><el-radio-button label="1"></el-radio-button></div>
                             <div><el-radio-button label="64"></el-radio-button></div>
@@ -232,15 +232,15 @@
                 // eslint-disable-next-line no-console
                 // console.log(this.multipleSelection)
             },
+
             onSubmit() {
+                // _date:this.pushtime_status,
+                // _channel_names:this.channel_status,
+                // _status:this.pushed_status,
+                // _used:this.ablepush_status,
+                // _deleted:this.channel_status
                 const payload = {
                     page: this.default_page,
-                    _date:this.pushtime_status,
-                    _channel_names:this.channel_status,
-                    _status:this.pushed_status,
-                    _used:this.ablepush_status,
-                    _deleted:this.channel_status,
-                    _deleted:this.channel_status,
                 };
                 // console.log(payload);
                 this.getTableData(payload);
