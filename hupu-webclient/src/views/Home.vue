@@ -10,7 +10,7 @@
                             </el-col>
                             <el-col :span="19">
                                 <div class="grid-content">
-                                    <el-input placeholder="请输入内容" v-model="selectInput"></el-input>
+                                    <el-input placeholder="请输入内容" v-model="jieba_status"></el-input>
                                 </div>
                             </el-col>
                             <el-col :span="4">
@@ -93,7 +93,7 @@
                             </el-col>
                             <el-col :span="4">
                                 <div class="grid-content bg-purple">
-                                    <el-button @click="commitSave()"  type="primary">save</el-button>
+                                    <el-button @click="commitSave()" type="primary">save</el-button>
                                 </div>
                             </el-col>
                         </el-row>
@@ -113,68 +113,117 @@
             </template>
             <el-aside width="20%">
                 <el-card class="box-card">
-                    <div slot="header" class="clearfix">
-                        <span >FILTER</span>
+                    <div class="clearfix" slot="header">
+                        <span>FILTER</span>
                     </div>
                     <div>
                         <div><h2> By 弃用</h2></div>
-                        <el-radio-group v-model="deleted_status" @change="onSubmit">
-                            <div><el-radio-button label="ALL"></el-radio-button></div>
-                            <div><el-radio-button label="YES"></el-radio-button></div>
-                            <div><el-radio-button label="NO"></el-radio-button></div>
+                        <el-radio-group @change="onSubmit" v-model="deleted_status">
+                            <div>
+                                <el-radio-button label="">ALL</el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="1">YES</el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="0">NO</el-radio-button>
+                            </div>
                         </el-radio-group>
                     </div>
                     <el-divider></el-divider>
                     <div>
                         <div><h2> By 已被推送</h2></div>
-                        <el-radio-group v-model="pushed_status" @change="onSubmit">
-                            <div><el-radio-button label="ALL"></el-radio-button></div>
-                            <div><el-radio-button label="YES"></el-radio-button></div>
-                            <div><el-radio-button label="NO"></el-radio-button></div>
+                        <el-radio-group @change="onSubmit" v-model="pushed_status">
+                            <div>
+                                <el-radio-button label="">ALL</el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="1">YES</el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="0">NO</el-radio-button>
+                            </div>
                         </el-radio-group>
                     </div>
                     <el-divider></el-divider>
                     <div>
                         <div><h2> By 可用</h2></div>
-                        <el-radio-group v-model="ablepush_status" @change="onSubmit">
-                            <div><el-radio-button label="ALL"></el-radio-button></div>
-                            <div><el-radio-button label="YES"></el-radio-button></div>
-                            <div><el-radio-button label="NO"></el-radio-button></div>
+                        <el-radio-group @change="onSubmit" v-model="ablepush_status">
+                            <div>
+                                <el-radio-button label="">ALL</el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="1">YES</el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="0">NO</el-radio-button>
+                            </div>
                         </el-radio-group>
                     </div>
                     <el-divider></el-divider>
                     <div>
                         <div><h2> By 发布时间</h2></div>
-                        <el-radio-group v-model="pushtime_status" @change="onSubmit">
-                            <div><el-radio-button label="ALL"></el-radio-button></div>
-                            <div><el-radio-button label="近12小时"></el-radio-button></div>
-                            <div><el-radio-button label="近24小时"></el-radio-button></div>
-                            <div><el-radio-button label="近48小时"></el-radio-button></div>
-                            <div><el-radio-button label="近72小时"></el-radio-button></div>
+                        <el-radio-group @change="onSubmit" v-model="pushtime_status">
+                            <div>
+                                <el-radio-button label="">ALL</el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="1">近24小时</el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="2">近48小时</el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="3">近72小时</el-radio-button>
+                            </div>
                         </el-radio-group>
                     </div>
                     <el-divider></el-divider>
                     <div>
                         <div><h2> By 板块</h2></div>
-                        <el-radio-group v-model="channel_status" @change="onSubmit">
-                            <div><el-radio-button label="ALL"></el-radio-button></div>
-                            <div><el-radio-button label="影视娱乐"></el-radio-button></div>
-                            <div><el-radio-button label="搞笑趣味"></el-radio-button></div>
-                            <div><el-radio-button label="数码"></el-radio-button></div>
-                            <div><el-radio-button label="晒照片"></el-radio-button></div>
-                            <div><el-radio-button label="步行街"></el-radio-button></div>
-                            <div><el-radio-button label="汽车"></el-radio-button></div>
+                        <el-radio-group @change="onSubmit" v-model="channel_status">
+                            <div>
+                                <el-radio-button label="">ALL</el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="影视娱乐"></el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="搞笑趣味"></el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="数码"></el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="晒照片"></el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="步行街"></el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="汽车"></el-radio-button>
+                            </div>
                         </el-radio-group>
                     </div>
                     <el-divider></el-divider>
                     <div>
                         <div><h2> By 话题</h2></div>
-                        <el-radio-group v-model="topic_id_status" @change="onSubmit">
-                            <div><el-radio-button label="ALL"></el-radio-button></div>
-                            <div><el-radio-button label="1"></el-radio-button></div>
-                            <div><el-radio-button label="64"></el-radio-button></div>
-                            <div><el-radio-button label="63"></el-radio-button></div>
-                            <div><el-radio-button label="84"></el-radio-button></div>
+                        <el-radio-group @change="onSubmit" v-model="topic_id_status">
+                            <div>
+                                <el-radio-button label="">ALL</el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="1"></el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="64"></el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="63"></el-radio-button>
+                            </div>
+                            <div>
+                                <el-radio-button label="84"></el-radio-button>
+                            </div>
                         </el-radio-group>
                     </div>
                 </el-card>
@@ -197,15 +246,17 @@
         name: 'home',
         data() {
             return {
-                selectInput: '',
                 tableData: [],
                 multipleSelection: '',
-                deleted_status: "ALL",
-                pushed_status:"ALL",
-                ablepush_status:"ALL",
-                pushtime_status:"ALL",
-                channel_status:"ALL",
-                topic_id_status:"ALL",
+                deleted_status: "",
+                pushed_status: "",
+                ablepush_status: "",
+                pushtime_status: "",
+                channel_status: "",
+                topic_id_status: "",
+                team_status: "",
+                account_status: "",
+                jieba_status: "",
                 deleted: '',
                 status: '',
                 is_usable: '',
@@ -232,15 +283,41 @@
                 // eslint-disable-next-line no-console
                 // console.log(this.multipleSelection)
             },
-
+            getNowFormatDate(date) {
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var strDate = date.getDate();
+                if (month >= 1 && month <= 9) {
+                    month = '0' + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = '0' + strDate;
+                }
+                var currentdate = year + '-' + month + '-' + strDate;
+                return currentdate;
+            },
             onSubmit() {
-                // _date:this.pushtime_status,
-                // _channel_names:this.channel_status,
-                // _status:this.pushed_status,
-                // _used:this.ablepush_status,
-                // _deleted:this.channel_status
+                let date_after = '';
+                let date_before = '';
+                if (this.pushtime_status !== '') {
+                    var date = new Date();
+                    var time = (new Date).getTime() - 24 * 60 * 60 * 1000 * parseInt(this.pushtime_status);
+                    var beforeday = new Date(time);
+                    date_before = this.getNowFormatDate(date);
+                    date_after = this.getNowFormatDate(beforeday);
+                }
+                // eslint-disable-next-line no-console
+                console.log(date_before, date_after);
                 const payload = {
-                    page: this.default_page,
+                    _date_after: date_after,
+                    _date_before: date_before,
+                    _channel_names: this.channel_status,
+                    _team: this.team_status,
+                    _account_type: this.account_status,
+                    _status: this.pushed_status,
+                    _used: this.ablepush_status,
+                    _deleted: this.deleted_status,
+                    _jieba_title: this.jieba_status,
                 };
                 // console.log(payload);
                 this.getTableData(payload);
@@ -301,7 +378,7 @@
                 this.$http({
                     url: path,
                     method: 'post',
-                    data: JSON.stringify({"data":updae_tableData}),
+                    data: JSON.stringify({"data": updae_tableData}),
                     headers: {
                         'Content-Type': 'application/json'
                     }
@@ -341,15 +418,17 @@
         color: #333;
         text-align: center;
     }
-    .el-card__header{
+
+    .el-card__header {
         padding: 0;
         margin: 0;
         height: 60px;
         background-color: #b3c0d1;
     }
-    .clearfix{
+
+    .clearfix {
         padding: 0;
         margin: 0;
-        background-color:#b3c0d1;
+        background-color: #b3c0d1;
     }
 </style>

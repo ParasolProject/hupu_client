@@ -27,7 +27,7 @@ class HupuFilterSerializer(FilterSet):
     _status = filters.BaseInFilter(field_name='status')
     _used = filters.BaseInFilter(field_name='is_usable')
     _deleted = filters.BaseInFilter(field_name='deleted')
-    _jieba_title = filters.CharFilter(field_name='jieba_title', look_expr='icontains')
+    _jieba_title = filters.CharFilter(field_name='jieba_title', lookup_expr='icontains')
     
     class Meta:
         # 查询表
